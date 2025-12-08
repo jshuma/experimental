@@ -2,6 +2,8 @@
 
 The used car dataset was explored and cleaned using industry-standard techniques. Data gaps and quality problems were addressed. To deal with wide variation in how models were reported, a model name standardization process was applied. Variables were examined to identify which are important in determining sale prices.
 
+See notebook [here](https://github.com/jshuma/experimental/blob/main/used_car_pricing/prompt_II.ipynb).
+
 # Findings
 
 Model, year, and condition are the most important factors driving the value of a car, so dealers are advised to prioritize these factors in selecting inventory.
