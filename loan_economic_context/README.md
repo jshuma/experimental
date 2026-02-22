@@ -2,7 +2,7 @@
 This analysis examines loan performance as a function of not just borrower
 characteristics, but also economic context.
 
-A complete analysis is [here]("https://github.com/jshuma/experimental/blob/main/loan_economic_context/lendingclub.ipynb").
+A complete analysis is [here](https://github.com/jshuma/experimental/blob/main/loan_economic_context/lendingclub.ipynb).
 This dataset pulls directly from Kaggle and the St. Louis Fed, but prompts for
 a Kaggle username and API key in order to do so. Be sure to set the
 `files_base` variable to match your local environment when running.
