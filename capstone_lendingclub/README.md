@@ -31,7 +31,7 @@ Data was cleaned according to standard preparation steps, detailed in the projec
 ### Modeling
 No attempt was made to assess borrower grade; that work has been done countless times before, and is not the central interest of this project. Instead, LendingClub's own assessment of borrower grade, made from many data points, was used.
 
-All models used in the project were a two-layer neural network. The first layer was a 31-node ReLu layer (with node count selected from the number of borrower grades available), while the second layer was an 8-node softmax layer (selected for the number of loan outcomes available). Other architectures were evaluated on an _ad hoc_ basis, without a significant change in model performance.
+All models used in the project were a four-layer neural network. The first layer was an 8-node ReLu layer (with node count selected from the largest number of inputs presented by any model trained here), the two hidden layers were 20-node ReLu layers for reasoning about combined inputs, and the second layer was an 8-node softmax layer (selected for the number of loan outcomes available). Other architectures were evaluated on an _ad hoc_ basis, without a significant change in model performance.
 
 From here, several models were trained:
 - A model predicting loan performance simply from borrower grade.
@@ -44,18 +44,22 @@ From here, several models were trained:
 The thinking guiding the evolution of this model is detailed in the [analysis notebook](https://github.com/jshuma/experimental/blob/main/capstone_lendingclub/lendingclub_analysis.ipynb).
 ### Model Evaluation
 Models were visualized by their training loss, evaluated based on validation loss, and finally compared based on baseline-vs.-validation accuracy and loss.
+
+As discussed below, training and evaluation were based on a chronological split into training and test data, rather than the traditional random split.
 ### Results
-Borrower grade was able to predict actual loan performance (validation loss ≈ 1.41 for typical runs), but borrower grade plus loan amount predicted performance even better (validation loss ≈ 0.138). The latter model was selected as a baseline.
+When using a chronological rather than random train/test split, borrower grade was able to predict actual loan performance (validation loss ≈ 0.41 for typical runs), but borrower grade plus loan amount regressed slightly. The latter model was selected as a baseline due to most accurately representing actual lender behavior.
 
-Factoring in S&P 500 data alone, in addition to borrower grade and loan amount, resulted in better predictions early on (validation loss ≈ 1.05), but overfitting eventually resulted in the model performing worse than baseline (validation loss ≈ 1.45).
+Factoring in S&P 500 data alone, in addition to borrower grade and loan amount, resulted in very slightly worse predictions (validation loss ≈ 0.448).
 
-Factoring in Fed funds rate data alone, in addition to borrower grade and loan amount, resulted in even better predictions than the above S&P 500-based analysis (validation loss ≈ 0.6 early on, but eventually being overtaken by overfitting).
+Factoring in Fed funds rate data alone, in addition to borrower grade and loan amount, resulted in better predictions than the above S&P 500-based analysis (validation loss ≈ 0.42, but worsening due to overfitting).
 
-But factoring in _both_ the S&P 500 _and_ Federal funds rate data, in addition to data available in the baseline, resulted in the best prediction evaluated (validation loss ≈ 0.55); this suggests that the S&P 500 and the Effective Federal Funds Rate each provide useful input, and they are not mutually redundant.
+But factoring in _both_ the S&P 500 _and_ Federal funds rate data, in addition to data available in the baseline, resulted in the worst prediction evaluated (validation loss ≈ 0.423); this suggests that incorporating additional data, when irrelevant, distracts the model.
 ### Important findings
 Models that split randomly into a test set and a training set performed better than those splitting before and after a cutoff date (where the cutoff date was selected such that 25% of data was reserved as a test set). As expected, the cutoff data performed worse; this suggests data leakage that gave an unfair advantage to learning data simply based on coincidental similarity of input data. Therefore, subsequent analyses were performed based on _cutoff date_ rather than randomly. As it turns out, this is a much more realistic comparison to real models, which would train on past data and use it to make predictions about unseen future data.
 
 Macroeconomic data (including only that data known at loan origination time) provide a useful additional consideration beyond borrower performance, which can predict future loan performance. This suggests that lenders should assess loans differently based on overall conditions when an application is received.
+
+Among all models considered, the Effective Federal Funds Rate provided the best augmentation to the data, outperforming the baseline slightly for validation loss. However, accuracy improvement was not observed.
 ### Next steps
 This analysis suggests that additional macroeconomic data may perform useful. It would be useful to examine several more sources and select the most important ones.
 
