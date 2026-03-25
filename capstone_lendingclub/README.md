@@ -63,7 +63,7 @@ Models that split randomly into a test set and a training set performed better t
 
 Macroeconomic data (including only that data known at loan origination time) provide a useful additional consideration beyond borrower performance, which can predict future loan performance. This suggests that lenders should assess loans differently based on overall conditions when an application is received.
 
-Among all models considered, the combination of S&P 500 and the Effective Federal Funds Rate provided the best augmentation to the data, outperforming the baseline slightly for validation loss. However, accuracy improvement was not observed.
+Among all models considered, the combination of S&P 500 and the Effective Federal Funds Rate provided the best augmentation to the data, outperforming the baseline slightly for validation loss. A slight accuracy improvement was observed, but it was too small to be of value except for a very large business. However, this provides an indication that looking further into macroeconomic models as a signal would be worthwhile.
 ### Next steps
 This analysis suggests that additional macroeconomic data may perform useful. It would be useful to examine several more sources and select the most important ones.
 
